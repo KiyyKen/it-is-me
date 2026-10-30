@@ -152,6 +152,40 @@
   .status-progress{background:var(--signal-soft); color:var(--signal);}
   .status-done{background:var(--secure-soft); color:var(--secure);}
 
+  /* Projects */
+  .proj-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+  .proj{
+    border:1px solid var(--line); border-radius:12px; overflow:hidden;
+    background:var(--paper-2); display:flex; flex-direction:column;
+    transition:transform .18s, box-shadow .18s;
+  }
+  .proj:hover{transform:translateY(-3px); box-shadow:0 14px 28px -18px rgba(0,0,0,0.25);}
+  .proj.featured{grid-column:1 / -1; flex-direction:row;}
+  .proj.featured .proj-media{flex:0 0 52%; aspect-ratio:auto; min-height:300px; border-bottom:none; border-right:1px solid var(--line);}
+  .proj-media{aspect-ratio:16/10; background:#15171C; border-bottom:1px solid var(--line); overflow:hidden; position:relative;}
+  .proj-media img{width:100%; height:100%; object-fit:cover; object-position:top; display:block;}
+  .proj-media.ph{
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px;
+    background:radial-gradient(circle at 30% 20%, #23283A 0%, #15171C 65%);
+    font-family:'JetBrains Mono',monospace; color:#B8C4E8; text-align:center; padding:24px;
+  }
+  .proj-media.ph .ph-title{font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:600; color:#fff; letter-spacing:-0.01em;}
+  .proj-media.ph .ph-sub{font-size:12px; color:#7C9CFF;}
+  .proj-body{padding:22px 24px 24px; display:flex; flex-direction:column; flex:1;}
+  .proj-meta{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;}
+  .proj-meta .tag{font-family:'JetBrains Mono',monospace; font-size:11px; padding:4px 9px; border-radius:100px;}
+  .proj h3{font-family:'Space Grotesk',sans-serif; font-size:18px; margin-bottom:8px;}
+  .proj p{color:var(--ink-soft); font-size:14px;}
+  .proj ul{margin-top:12px; list-style:none;}
+  .proj li{font-size:13.5px; color:var(--ink-soft); padding-left:16px; position:relative; margin-bottom:5px;}
+  .proj li::before{content:"—"; position:absolute; left:0; color:var(--muted);}
+  .stack{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .stack span{font-family:'JetBrains Mono',monospace; font-size:11px; padding:3px 8px; border:1px solid var(--line); border-radius:6px; color:var(--ink-soft); background:var(--paper);}
+  .proj-links{display:flex; gap:16px; margin-top:auto; padding-top:18px; font-size:13.5px; font-weight:500;}
+  .proj-links a{color:var(--ink); border-bottom:1px solid var(--line); transition:border-color .15s, color .15s;}
+  .proj-links a:hover{color:var(--signal); border-color:var(--signal);}
+  .proj-links a:focus-visible{outline:2px solid var(--signal); outline-offset:3px; border-radius:2px;}
+
   /* Skills */
   .skill-cols{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
   .skill-col-title{
@@ -174,7 +208,9 @@
   .fine{margin-top:48px; font-size:12.5px; color:var(--muted); font-family:'JetBrains Mono',monospace;}
 
   @media (max-width:760px){
-    .hero-grid, .about-grid, .cards, .skill-cols{grid-template-columns:1fr;}
+    .hero-grid, .about-grid, .cards, .skill-cols, .proj-grid{grid-template-columns:1fr;}
+    .proj.featured{flex-direction:column;}
+    .proj.featured .proj-media{flex:none; aspect-ratio:16/10; min-height:0; border-right:none; border-bottom:1px solid var(--line);}
     .navlinks{display:none;}
     .work-row{grid-template-columns:1fr; gap:8px;}
     .contact-grid{flex-direction:column; align-items:flex-start;}
@@ -196,7 +232,8 @@
     <div class="navlinks">
       <a href="#about">About</a>
       <a href="#focus">Focus</a>
-      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
+      <a href="#work">Log</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </div>
@@ -206,11 +243,11 @@
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="kicker"><span class="dot"></span>final-year · informatics engineering</div>
+      <div class="kicker"><span class="dot"></span>informatics engineering · thesis defended 2026</div>
       <h1>Building systems.<br>Now learning to <span class="accent">defend</span> them.</h1>
-      <p class="hero-sub">Ariyan — web developer by trade (JavaScript, React, Node.js), currently in transition toward cybersecurity, working through the SOC Analyst path toward AppSec / DevSecOps.</p>
+      <p class="hero-sub">Ariyan — web developer by trade (Laravel, Node.js, TypeScript), currently in transition toward cybersecurity, working through the SOC Analyst path toward AppSec / DevSecOps.</p>
       <div class="hero-ctas">
-        <a href="#work" class="btn btn-primary">See the work →</a>
+        <a href="#projects" class="btn btn-primary">See the projects →</a>
         <a href="#contact" class="btn btn-ghost">Get in touch</a>
       </div>
     </div>
@@ -229,16 +266,17 @@
     <div>
       <div class="eyebrow">[about]</div>
       <h2>A developer moving toward defense.</h2>
-      <p>I'm a final-year Informatics Engineering student based in South Jakarta, finishing a thesis that implements the C4.5 decision-tree algorithm inside a Laravel application. Years of shipping with Laravel, React, Node and MySQL taught me how systems get built — which is exactly why I got curious about how they get broken.</p>
+      <p>I'm an Informatics Engineering student at Universitas Pamulang, based in South Jakarta. I recently defended my thesis: a distribution system that predicts best-selling products with the C4.5 decision-tree algorithm, built in Laravel. Shipping with Laravel, Node, TypeScript and MySQL taught me how systems get built — which is exactly why I got curious about how they get broken.</p>
       <p>That curiosity turned into a deliberate move: I'm working through TryHackMe's SOC Analyst path, with an eye toward AppSec and DevSecOps — roles where knowing how to build software and knowing how to secure it are the same skill set.</p>
     </div>
     <div class="fact-list">
       <div class="fact"><span class="k">LOCATION</span><span class="v">South Jakarta, Indonesia</span></div>
-      <div class="fact"><span class="k">STATUS</span><span class="v">Final-year student (Semester 8)</span></div>
-      <div class="fact"><span class="k">CORE STACK</span><span class="v">JavaScript · React · Node.js · Laravel</span></div>
+      <div class="fact"><span class="k">STATUS</span><span class="v">Thesis defended (Oct 2026)</span></div>
+      <div class="fact"><span class="k">CORE STACK</span><span class="v">Laravel · Node.js · TypeScript · MySQL</span></div>
       <div class="fact"><span class="k">IN PROGRESS</span><span class="v">SOC Analyst path (TryHackMe)</span></div>
-      <div class="fact"><span class="k">CERTIFIED</span><span class="v">BNSP Programmer</span></div>
-      <div class="fact"><span class="k">CERTIFIED</span><span class="v">WPU Course (blockchain-verified)</span></div>
+      <div class="fact"><span class="k">CERTIFIED</span><span class="v">BNSP Programmer (2026)</span></div>
+      <div class="fact"><span class="k">COMPLETED</span><span class="v">TryHackMe Pre Security</span></div>
+      <div class="fact"><span class="k">COMPLETED</span><span class="v">WPU Course — Belajar Laravel</span></div>
     </div>
   </div>
 </section>
@@ -254,10 +292,10 @@
         <h3>Web Development</h3>
         <p>End-to-end web apps with a focus on clean, maintainable backend logic and practical frontend delivery.</p>
         <ul>
-          <li>JavaScript, React &amp; Tailwind CSS for interfaces</li>
-          <li>Node.js &amp; Express.js for services and APIs</li>
-          <li>Laravel &amp; PHP for backend architecture</li>
-          <li>MySQL for data modeling</li>
+          <li>Laravel &amp; PHP for backend architecture, Filament for admin panels</li>
+          <li>Node.js, Express &amp; NestJS for services and APIs</li>
+          <li>React, Astro &amp; Tailwind CSS for interfaces</li>
+          <li>MySQL &amp; PostgreSQL for data modeling, Pest/PHPUnit for tests</li>
         </ul>
       </div>
       <div class="card">
@@ -275,19 +313,146 @@
   </div>
 </section>
 
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow">[projects]</div>
+    <h2>Selected projects.</h2>
+    <p class="lede">Things I've built end to end — from data model to deployment. Source code for each is on GitHub.</p>
+    <div class="proj-grid">
+
+      <article class="proj featured">
+        <div class="proj-media ph" aria-hidden="true">
+          <span class="ph-title">Anime Stream</span>
+          <span class="ph-sub">freemium-per-episode · midtrans · filament</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-meta"><span class="tag tag-build">[BUILD]</span><span class="tag tag-secure">[SECURE]</span></div>
+          <h3>Anime Streaming Platform</h3>
+          <p>Mobile-first streaming app where early episodes are free and later ones are unlocked with coins bought through Midtrans. Built with production hardening in mind.</p>
+          <ul>
+            <li>Premium videos on a private disk, streamed only after a per-request ownership check</li>
+            <li>Race-safe coin wallet: DB transactions, row locks and unique constraints</li>
+            <li>SHA-512 webhook signature check, rate limiting, HTML sanitizer against stored XSS</li>
+            <li>97 Pest feature tests; Filament 4 admin with revenue widgets</li>
+          </ul>
+          <div class="stack"><span>Laravel 12</span><span>Filament 4</span><span>MySQL</span><span>Midtrans</span><span>Tailwind 4</span><span>Pest</span></div>
+          <div class="proj-links"><a href="https://github.com/KiyyKen/Anime-Stream-Platform" target="_blank" rel="noopener">Source ↗</a></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-media"><img src="assets/projects/forkekan.webp" alt="Forkekan-mint landing page" loading="lazy"></div>
+        <div class="proj-body">
+          <h3>Forkekan-mint</h3>
+          <p>Video optimization app that re-encodes uploads so they don't lose quality on WhatsApp Story, Instagram, TikTok and other platforms. Monorepo with a web app, REST API and a background worker.</p>
+          <ul>
+            <li>Ready-made encoding profiles per platform, with optional AI fine-tuning of CRF, bitrate and fps</li>
+            <li>FFmpeg jobs queued through BullMQ + Redis with real-time progress</li>
+            <li>NestJS API with Prisma, PostgreSQL, JWT / Google sign-in and expiring download links</li>
+          </ul>
+          <div class="stack"><span>TypeScript</span><span>React 19</span><span>NestJS</span><span>Prisma</span><span>BullMQ</span><span>FFmpeg</span><span>Turborepo</span></div>
+          <div class="proj-links">
+            <a href="https://forkekan-mint.vercel.app/" target="_blank" rel="noopener">Live demo (frontend) ↗</a>
+            <a href="https://github.com/KiyyKen/forkekan-mint" target="_blank" rel="noopener">Source ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-media"><img src="assets/projects/hwr.webp" alt="HWR Collection homepage" loading="lazy"></div>
+        <div class="proj-body">
+          <h3>HWR Collection</h3>
+          <p>Company site and catalog built for a family-run wholesale pants store. Customers build an order list that turns into a ready-to-send WhatsApp message — no accounts, no checkout.</p>
+          <ul>
+            <li>Zero external JavaScript on the home, catalog and 404 pages</li>
+            <li>Products managed in Sanity Studio, validated with one Zod schema</li>
+            <li>Rebuild webhook verified with HMAC signatures</li>
+          </ul>
+          <div class="stack"><span>Astro</span><span>Preact</span><span>Sanity CMS</span><span>Zod</span><span>Tailwind 4</span></div>
+          <div class="proj-links"><a href="https://github.com/KiyyKen/HWR-Collection" target="_blank" rel="noopener">Source ↗</a></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-media"><img src="assets/projects/clash.webp" alt="Clash Kiw landing page" loading="lazy"></div>
+        <div class="proj-body">
+          <h3>Clash Kiw</h3>
+          <p>Player and clan lookup for Clash of Clans using the official Supercell API, plus an upgrade calculator that estimates resources and build time for heroes, troops and spells.</p>
+          <ul>
+            <li>Express backend proxying the Supercell API with a 2-minute in-memory TTL cache</li>
+            <li>Modular ES-module frontend with light/dark themes</li>
+            <li>Deployed as a serverless app on Vercel</li>
+          </ul>
+          <div class="stack"><span>Node.js</span><span>Express 5</span><span>JavaScript</span><span>REST API</span><span>Vercel</span></div>
+          <div class="proj-links">
+            <a href="https://clash-kiw.vercel.app/" target="_blank" rel="noopener">Live demo ↗</a>
+            <a href="https://github.com/KiyyKen/Clash-of-Clans-Lookup-Players" target="_blank" rel="noopener">Source ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-media"><img src="assets/projects/yery.webp" alt="Best-seller prediction page of the Yery Collection system" loading="lazy"></div>
+        <div class="proj-body">
+          <h3>Yery Collection — C4.5 Prediction</h3>
+          <p>My thesis project: a distribution-recording system for a children's pants wholesaler that predicts best-selling products from historical distribution data using the C4.5 algorithm.</p>
+          <ul>
+            <li>C4.5 decision tree (entropy, gain ratio) implemented from scratch in PHP</li>
+            <li>Distribution records, product data and printable reports</li>
+            <li>Validated against manual calculation; tested with 16 black-box scenarios</li>
+          </ul>
+          <div class="stack"><span>Laravel 12</span><span>MySQL</span><span>Tailwind CSS</span><span>Alpine.js</span></div>
+          <div class="proj-links"><a href="https://github.com/KiyyKen/yery-collection" target="_blank" rel="noopener">Source ↗</a></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-media"><img src="assets/projects/motopart.webp" alt="MotoPart Garage catalog" loading="lazy"></div>
+        <div class="proj-body">
+          <h3>MotoPart Garage</h3>
+          <p>Online shop for a motorcycle workshop: catalog, cart, Midtrans payment, order tracking and an admin dashboard with sales charts.</p>
+          <ul>
+            <li>Order status timeline, PDF invoices and email notifications</li>
+            <li>Stock automatically restored when an order is cancelled</li>
+            <li>15 passing PHPUnit tests</li>
+          </ul>
+          <div class="stack"><span>Laravel 13</span><span>Bootstrap 5</span><span>Midtrans</span><span>Chart.js</span><span>DomPDF</span></div>
+          <div class="proj-links"><a href="https://github.com/KiyyKen/Sparepart-Motor" target="_blank" rel="noopener">Source ↗</a></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-media"><img src="assets/projects/ppdb.webp" alt="PPDB TK Mardi Tama homepage" loading="lazy"></div>
+        <div class="proj-body">
+          <h3>PPDB Online TK Mardi Tama</h3>
+          <p>Internship project built in a team of three, where I handled the frontend and helped on the backend. Used by the kindergarten for its 2025 admissions, replacing on-site manual registration: a 3-step registration form with document upload, public status check, and an admin panel for verification.</p>
+          <ul>
+            <li>Unique registration codes and one-click WhatsApp announcements</li>
+            <li>Analytics charts, printable proof of registration, CSV/Excel export</li>
+            <li>Fees and admission waves editable from the dashboard</li>
+          </ul>
+          <div class="stack"><span>Laravel Blade</span><span>Tailwind CSS</span><span>MySQL</span><span>Chart.js</span></div>
+          <div class="proj-links"><a href="https://github.com/KiyyKen/ppdb-tk-marditama" target="_blank" rel="noopener">Source ↗</a></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <section id="work">
   <div class="wrap">
-    <div class="eyebrow">[work]</div>
-    <h2>Currently in progress.</h2>
-    <p class="lede">A log of what's actively being built and learned — updated as it moves.</p>
+    <div class="eyebrow">[log]</div>
+    <h2>Learning &amp; milestones.</h2>
+    <p class="lede">A log of what's been finished and what's actively being learned — updated as it moves.</p>
     <div class="worklist">
       <div class="work-row">
-        <div class="work-time">2025 — now</div>
+        <div class="work-time">Oct 2026</div>
         <div>
-          <div class="work-title">Skripsi: C4.5 Decision Tree in Laravel</div>
-          <div class="work-desc">Thesis implementing the C4.5 classification algorithm inside a Laravel web application — covering both the technical build and the written academic component.</div>
+          <div class="work-title">Thesis defended: C4.5 Prediction in Laravel</div>
+          <div class="work-desc">Implemented the C4.5 classification algorithm in a Laravel distribution system for Toko Yery Collection. Now finalizing post-defense revisions and a journal paper.</div>
         </div>
-        <div class="work-status status-progress">in progress</div>
+        <div class="work-status status-done">defended</div>
       </div>
       <div class="work-row">
         <div class="work-time">2026 — now</div>
@@ -298,18 +463,26 @@
         <div class="work-status status-progress">in progress</div>
       </div>
       <div class="work-row">
-        <div class="work-time">Completed</div>
+        <div class="work-time">Oct 2026</div>
         <div>
-          <div class="work-title">BNSP Programmer Certification</div>
-          <div class="work-desc">National professional certification (BNSP) validating programming competency.</div>
+          <div class="work-title">WPU Course — Belajar Laravel</div>
+          <div class="work-desc">Certificate of completion for the Laravel course by WPU Course.</div>
         </div>
-        <div class="work-status status-done">certified</div>
+        <div class="work-status status-done">completed</div>
       </div>
       <div class="work-row">
-        <div class="work-time">Completed</div>
+        <div class="work-time">Aug 2026</div>
         <div>
-          <div class="work-title">WPU Course Certifications</div>
-          <div class="work-desc">Blockchain-verified certifications from WPU Course.</div>
+          <div class="work-title">TryHackMe: Pre Security Path</div>
+          <div class="work-desc">Completed the Pre Security learning path: networking fundamentals, how the web works, and Linux &amp; Windows fundamentals.</div>
+        </div>
+        <div class="work-status status-done">completed</div>
+      </div>
+      <div class="work-row">
+        <div class="work-time">Jan 2026</div>
+        <div>
+          <div class="work-title">BNSP Programmer Certification</div>
+          <div class="work-desc">National certificate of competence as a Programmer, issued by BNSP through LSP Universitas Pamulang. Valid for three years.</div>
         </div>
         <div class="work-status status-done">certified</div>
       </div>
@@ -325,14 +498,25 @@
       <div>
         <div class="skill-col-title">Development</div>
         <div class="pills">
+          <span class="pill">PHP</span>
+          <span class="pill">Laravel</span>
+          <span class="pill">Filament</span>
           <span class="pill">JavaScript</span>
-          <span class="pill">React</span>
+          <span class="pill">TypeScript</span>
           <span class="pill">Node.js</span>
           <span class="pill">Express.js</span>
+          <span class="pill">NestJS</span>
+          <span class="pill">React</span>
+          <span class="pill">Astro</span>
           <span class="pill">Tailwind CSS</span>
-          <span class="pill">Laravel</span>
-          <span class="pill">PHP</span>
           <span class="pill">MySQL</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">Prisma</span>
+          <span class="pill">Redis / BullMQ</span>
+          <span class="pill">Midtrans</span>
+          <span class="pill">Pest / PHPUnit</span>
+          <span class="pill">Docker</span>
+          <span class="pill">Git</span>
         </div>
       </div>
       <div>
@@ -357,9 +541,9 @@
         <h2>Let's talk.</h2>
       </div>
       <div class="contact-links">
-        <a href="mailto:hello@example.com">hello@example.com</a>
-        <a href="#">linkedin.com/in/ariyan</a>
-        <a href="#">github.com/ariyan</a>
+        <a href="mailto:rizkyariyan123@gmail.com">rizkyariyan123@gmail.com</a>
+        <a href="https://www.linkedin.com/in/rizky-ariyan/" target="_blank" rel="noopener">linkedin.com/in/rizky-ariyan</a>
+        <a href="https://github.com/KiyyKen" target="_blank" rel="noopener">github.com/KiyyKen</a>
       </div>
     </div>
     <div class="fine">© 2026 Ariyan · Jakarta, Indonesia · Built while learning to break things responsibly.</div>
@@ -369,10 +553,10 @@
 <script>
   const lines = [
     { html: '<span class="dim">$</span> whoami' , delay: 0},
-    { html: 'ariyan — informatics engineering, semester 8', delay: 450},
+    { html: 'ariyan — informatics engineering, thesis defended', delay: 450},
     { html: '', delay: 550},
     { html: '<span class="dim">$</span> ./run --module=development', delay: 900},
-    { html: '<span class="tag">[BUILD]</span> javascript + react + node <span class="ok">✓ shipping</span>', delay: 1350},
+    { html: '<span class="tag">[BUILD]</span> laravel + node + typescript <span class="ok">✓ 7 projects shipped</span>', delay: 1350},
     { html: '', delay: 1450},
     { html: '<span class="dim">$</span> ./run --module=security', delay: 1800},
     { html: '<span class="tag">[SECURE]</span> soc analyst path <span class="ok">● active</span>', delay: 2250},
